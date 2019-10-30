@@ -1,9 +1,3 @@
-# Code:
-
-​		HUP_code is the code for the paper "Hierarchical User Profiling for E-commerce Recommender Systems", which is published in WSDM 2020.
-
-​        The code is written in Keras 2.2.
-
 # Dataset:
 
 ​	  JD Micro Behaviors Datasets
