@@ -36,7 +36,7 @@ Please cite the following paper if you use the data in any way.
 
 # Download link:
 
-We only provide samples of the dataset here. If you are interested in using the whole dataset for your research, please send your email to guyulongcs@gmail.com.
+The full dataset can be downloaded from https://drive.google.com/open?id=1Fb8J43Fg-HvWxdhMhnDhzUgWqGMlYtqO.
 
 # File Description:
 
