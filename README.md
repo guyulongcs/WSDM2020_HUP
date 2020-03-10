@@ -1,4 +1,4 @@
-Hierarchical User Profiling for E-commerce Recommender Systems (WSDM2020)
+Hierarchical User Profiling for E-commerce Recommender Systems (WSDM 2020)
 ============
 
 # HUP:
