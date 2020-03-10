@@ -10,7 +10,7 @@ from keras.legacy import interfaces
 from keras.legacy.layers import Recurrent
 
 class BLSTMCell(Layer):
-    """Cell class for the Behavior-LSTM layer.
+    """Cell class for the BLSTM layer.
 
     # Arguments
         units: Positive integer, dimensionality of the output space.
@@ -116,6 +116,8 @@ class BLSTMCell(Layer):
         self._dropout_mask = None
         self._recurrent_dropout_mask = None
 
+
+
     def build(self, input_shape):
         #input: x, time_interval, wei
         total_dim = input_shape[-1]
@@ -139,7 +141,7 @@ class BLSTMCell(Layer):
 
         self.kernel_wei = None
         if (weight_dim > 0):
-            self.kernel_wei = self.add_weight(shape=(weight_dim, self.units * 4),
+            self.kernel_wei = self.add_weight(shape=(weight_dim, self.units),
                                       name='kernel_wei',
                                       initializer=self.kernel_initializer,
                                       regularizer=self.kernel_regularizer,
@@ -181,10 +183,8 @@ class BLSTMCell(Layer):
             self.kernel_T = self.kernel_interval[:, :self.units]
 
         if(self.weight_dim > 0):
-            self.kernel_W_i = self.kernel_wei[:, :self.units]
-            self.kernel_W_f = self.kernel_wei[:, self.units : self.units * 2]
-            self.kernel_W_W = self.kernel_wei[:, self.units * 2: self.units * 3]
-            self.kernel_W_o = self.kernel_wei[:, self.units * 3: self.units * 4]
+            self.kernel_W = self.kernel_wei[:, :self.units]
+
 
         self.recurrent_kernel_i = self.recurrent_kernel[:, :self.units]
         self.recurrent_kernel_f = self.recurrent_kernel[:, self.units: self.units * 2]
@@ -275,8 +275,10 @@ class BLSTMCell(Layer):
                 h_tm1_f = h_tm1
                 h_tm1_c = h_tm1
                 h_tm1_o = h_tm1
-            i = self.recurrent_activation(x_i + K.dot(h_tm1_i, self.recurrent_kernel_i) + K.dot(weight, self.kernel_W_i))
-            f = self.recurrent_activation(x_f + K.dot(h_tm1_f, self.recurrent_kernel_f) + K.dot(weight, self.kernel_W_f))
+            i = self.recurrent_activation(x_i + K.dot(h_tm1_i,
+                                                      self.recurrent_kernel_i))
+            f = self.recurrent_activation(x_f + K.dot(h_tm1_f,
+                                                      self.recurrent_kernel_f))
 
 
             c_hat = self.activation(x_c + K.dot(h_tm1_c,
@@ -288,13 +290,32 @@ class BLSTMCell(Layer):
                 c_hat = c_hat * T
 
             if(self.weight_dim > 0):
-                W = self.recurrent_activation(x_W + K.dot(weight, self.kernel_W_W))
+                W = self.recurrent_activation(x_W + K.dot(weight,
+                                                      self.kernel_wei))
                 c_hat = c_hat * W
 
             c = f * c_tm1 + i * c_hat
-            o = self.recurrent_activation(x_o + K.dot(h_tm1_o, self.recurrent_kernel_o) + K.dot(weight, self.kernel_W_o))
+            o = self.recurrent_activation(x_o + K.dot(h_tm1_o,
+                                                      self.recurrent_kernel_o))
         else:
-            pass
+            if 0. < self.dropout < 1.:
+                inputs *= dp_mask[0]
+            z = K.dot(inputs, self.kernel)
+            if 0. < self.recurrent_dropout < 1.:
+                h_tm1 *= rec_dp_mask[0]
+            z += K.dot(h_tm1, self.recurrent_kernel)
+            if self.use_bias:
+                z = K.bias_add(z, self.bias)
+
+            z0 = z[:, :self.units]
+            z1 = z[:, self.units: 2 * self.units]
+            z2 = z[:, 2 * self.units: 3 * self.units]
+            z3 = z[:, 3 * self.units:]
+
+            i = self.recurrent_activation(z0)
+            f = self.recurrent_activation(z1)
+            c = f * c_tm1 + i * self.activation(z2)
+            o = self.recurrent_activation(z3)
 
         h = o * self.activation(c)
         if 0 < self.dropout + self.recurrent_dropout:
@@ -327,7 +348,7 @@ class BLSTMCell(Layer):
 
 
 class BLSTM(RNN):
-    """Behavior-LSTM
+    """
 
     # Arguments
         units: Positive integer, dimensionality of the output space.

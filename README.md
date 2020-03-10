@@ -1,20 +1,37 @@
-# Code:
+Hierarchical User Profiling for E-commerce Recommender Systems (WSDM2020)
+============
 
-​		HUP_code is the code for the paper "Hierarchical User Profiling for E-commerce Recommender Systems", which is published in WSDM 2020.
+# HUP:
 
-​        The code is written in Keras 2.2.
+   HUP_code is the code for the paper "[Hierarchical User Profiling for E-commerce Recommender Systems](https://dl.acm.org/doi/abs/10.1145/3336191.3371827)", which is published in WSDM 2020. The code is written in Keras 2.2 and theano 1.0. 
 
-# Dataset:
+   HUP_Data is the folder that contains the dataset.
 
-​	  JD Micro Behaviors Datasets
+![The proposed framework](p_HRNN.eps)
 
-# Description:
+## Requirements
+
+python==2.7
+keras==2.2.0
+theano=1.0.1
+numpy=1.13.1
+pandas=0.20.3
+
+## Usage
+
+```sh run.sh```
+
+# Datasets:
+
+  JD Micro Behaviors Datasets.
+
+## Description:
 
 The datasets are used for research on modeling users' sequential micro-behaviors in "Hierarchical User Profiling for E-commerce Recommender Systems", which is published in WSDM 2020.
 
 The datasets contain users’ micro-behaviors in two product categories “Appliances” and “Computers”, where each line is a sequence of a user’s micro behaviors in a session. 
 
-# Statistics:
+## Statistics:
 
 
 | Dataset | JD-Applicances | JD-Computers | Desc                            |
@@ -24,21 +41,29 @@ The datasets contain users’ micro-behaviors in two product categories “Appli
 | Categories | 103 | 93 | Leaf categories |
 | Number of Micro behaviors      | 176,483,033 | 88,766,833 | micro behaviors |
 
-# Research Topics:
+## Research Topics:
 
 This dataset can be used for research on User Profiling, Recommender Systems, Session-based Recommender Systems, Micro-behaviors Modeling, and so on. To protect the privacy of users, we remove the users' information. This dataset should only be used for research purpose!
 
-# Citation:
+## Citation:
 
 Please cite the following paper if you use the data in any way.
 
-1. Yulong Gu, Zhuoye Ding, Shuaiqiang Wang, and Dawei Yin. "Hierarchical User Profiling for E-commerce Recommender Systems." WSDM 2020
+```
+@inproceedings{gu2020hierarchical,
+  title={Hierarchical User Profiling for E-commerce Recommender Systems},
+  author={Gu, Yulong and Ding, Zhuoye and Wang, Shuaiqiang and Yin, Dawei},
+  booktitle={Proceedings of the 13th International Conference on Web Search and Data Mining},
+  pages={223--231},
+  year={2020}
+}
+```
 
-# Download link:
+## Download link:
 
 The full dataset can be downloaded from https://drive.google.com/open?id=1Fb8J43Fg-HvWxdhMhnDhzUgWqGMlYtqO.
 
-# File Description:
+## File Description:
 
 Each line is a sequence of a user’s micro behaviors in a session. 
 
