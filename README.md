@@ -7,14 +7,18 @@ Hierarchical User Profiling for E-commerce Recommender Systems (WSDM2020)
 
    HUP_Data is the folder that contains the dataset.
 
-![The proposed framework](p_HRNN.eps)
+![The proposed framework](PRNN.png)
 
 ## Requirements
 
 python==2.7
+
 keras==2.2.0
+
 theano=1.0.1
+
 numpy=1.13.1
+
 pandas=0.20.3
 
 ## Usage
